@@ -1,0 +1,30 @@
+services:
+  app:
+    image: express_notes_api:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - mongo-network
+
+    environment:
+      PORT: 3000
+      MONGO_URI: mongodb://mongodb:27017/note_data
+      JWT_ACCESS_TOKEN_SECRET: scbacnqnui312
+      JWT_REFRESH_TOKEN_SECRET: sjhdhcnscw78g3bc
+
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    networks:
+      - mongo-network
+    volumes:
+      - mongo_data:/data/db
+
+networks:
+  mongo-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
