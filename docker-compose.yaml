@@ -1,6 +1,6 @@
 services:
   app:
-    image: hashimgujjar/express_notes_api:latest
+    image: 729743892579.dkr.ecr.eu-north-1.amazonaws.com/express_notes_repo:latest
     ports:
       - "3000:3000"
     networks:
