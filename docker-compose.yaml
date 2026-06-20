@@ -1,6 +1,6 @@
 services:
   app:
-    image: express_notes_api:latest
+    image: hashimgujjar/express_notes_api:latest
     ports:
       - "3000:3000"
     networks:
