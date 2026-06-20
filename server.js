@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   return res.json({
     success: true,
-    message: "Notes API Running updating using CI CD",
+    message: "Notes API Running updating using CI CD and this time using ECR",
   });
 });
 
