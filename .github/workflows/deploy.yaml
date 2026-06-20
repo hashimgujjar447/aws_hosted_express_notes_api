@@ -1,4 +1,4 @@
-name: Deploying Express Notes app using CI/ED
+name: Deploying Express Notes app using CI/CD
 on:
   push:
     branches:
@@ -9,23 +9,29 @@ jobs:
     steps:
       - name: Checkout code from github to ubuntu
         uses: actions/checkout@v4
+
       - name: Configure AWS
-        uses: aws-action/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+
       - name: Login to ECR
-        uses: aws-action/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@v2
+
       - name: Creating build of our project
         run: |
           docker build -t express_notes_api:latest .
+
       - name: Adding tag
         run: |
           docker tag express_notes_api:latest ${{ secrets.ECR_REPO }}/express_notes_api:latest
-      - name: Pushing registery on docker hub
+
+      - name: Pushing to ECR
         run: |
           docker push ${{ secrets.ECR_REPO }}/express_notes_api:latest
+
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
