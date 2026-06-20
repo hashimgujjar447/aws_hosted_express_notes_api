@@ -26,11 +26,11 @@ jobs:
 
       - name: Adding tag
         run: |
-          docker tag express_notes_api:latest ${{ secrets.ECR_REPO }}/express_notes_api:latest
+          docker tag express_notes_api:latest ${{ secrets.ECR_REPO }}/express_notes_repo:latest
 
       - name: Pushing to ECR
         run: |
-          docker push ${{ secrets.ECR_REPO }}/express_notes_api:latest
+          docker push ${{ secrets.ECR_REPO }}/express_notes_repo:latest
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
