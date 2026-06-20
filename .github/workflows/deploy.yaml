@@ -17,15 +17,19 @@ jobs:
       - name: Creating build of our project
         run: |
           docker build -t express_notes_api:latest .
+      - name: Adding tag
+        run: |
+          docker tag express_notes_api:latest ${{secrets.DOCKER_USERNAME}}/express_notes_api:latest
       - name: Pushing registery on docker hub
         run: |
           docker push ${{secrets.DOCKER_USERNAME}}/express_notes_api:latest
       - name: Login to EC2 and deploying code
-        uses: appleboy/ssh-login@v1.0.3
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{secrets.EC2_HOST}}
           username: ${{secrets.EC2_USERNAME}}
           key: ${{secrets.EC2_SECRET}}
-          script: cd /home/ubuntu
+          script: |
+            cd /home/ubuntu
             docker compose pull
-            docker compose up -d
+            docker compose up -d --force-recreate
